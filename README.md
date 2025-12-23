@@ -27,19 +27,15 @@ You can use tools like Postman to test the API endpoints. Example test files are
 your own PDF files. 
 1.`POST /documents` - Upload a document.
 - Call the endpoint http://localhost:8080 and include the pdf file in the request body. Here's an example of a successful request. 
+If the file doesn't exist or isn't a PDF file, you will get a 400 response.
 ![POST request](images/successful_post_documents.png)
 - You can also submit multiple files and the background processing will handle them one by one.
 - From the terminal, run ```docker exec -it document_db psql -U documents_user -d documents_db``` to open PostgreSQL shell. Then run ```SELECT * FROM documents;``` to see the records. You should see something like this:
 ![PostgreSQL data](images/done_processing.png)
-- If the file doesn't exist or isn't a PDF file, you will get a 400 response.
-![Missing file](images/missing_file.png)
-![Only PDF](images/only_pdf.png)
 
 2. `GET /documents/{id}` - Retrieve document metadata.
-- Here's an example of a successful request. 
+- Here's an example of a successful request. If the document with the given ID doesn't exist, you will get a 404 response.
 ![GET request](images/get_document.png)
-- If the document with the given ID doesn't exist, you will get a 404 response.
-![Not found](images/not_found.png)
 
 ## Architecture Trade-offs
 1. Use SQL (PostgreSQL) to store metadata.
