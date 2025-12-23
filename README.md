@@ -24,8 +24,9 @@ The API documentation is available at `http://localhost:8080/swagger-ui.html` on
 
 ## Test the API Endpoints
 You can use tools like Postman to test the API endpoints. Example test files are in `data/files` folder. You can also use your own PDF files.
+
 1.`POST /documents` - Upload a document.
-- Call the endpoint http://localhost:8080 and include the pdf file in the request body. Here's an example of a successful request. 
+- Call the endpoint http://localhost:8080/documents and include the pdf file in the request body. Here's an example of a successful request. 
 ![POST request](images/successful_post_documents.png)
 - You can also submit multiple files and the background processing will handle them one by one.
 - From the terminal, run ```docker exec -it document_db psql -U documents_user -d documents_db``` to open PostgreSQL shell. Then run ```SELECT * FROM documents;``` to see the records. You should see something like this:
@@ -35,7 +36,7 @@ You can use tools like Postman to test the API endpoints. Example test files are
 ![Only PDF](images/only_pdf.png)
 
 2. `GET /documents/{id}` - Retrieve document metadata.
-- Here's an example of a successful request. 
+- Call the endpoint http://localhost:8080/documents/{id} and replace `id` with the document id. Here's an example of a successful request. 
 ![GET request](images/get_document.png)
 - If the document with the given ID doesn't exist, you will get a 404 response.
 ![Not found](images/not_found.png)
