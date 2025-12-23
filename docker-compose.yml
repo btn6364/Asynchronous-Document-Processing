@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: document_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: documents_db
+      POSTGRES_USER: documents_user
+      POSTGRES_PASSWORD: documents_pass
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U documents_user -d documents_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: document_api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./data/files:/data/files
+    environment:
+      APP_FILES_BASE_DIR: /data/files
+      DB_URL: jdbc:postgresql://postgres:5432/documents_db
+      DB_USER: documents_user
+      DB_PASSWORD: documents_pass
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:
