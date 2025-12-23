@@ -12,7 +12,7 @@ Small Spring Boot service to upload documents, persist metadata to PostgreSQL an
 1. Verify the following files at the repo root:
 - `docker-compose.yml` 
 - `Dockerfile`
-2. Close any existing service and start the PostgreSQL database and the API service:
+2. From the root directory of the project, close any existing service and start the PostgreSQL database and the API service:
 ```
 docker compose down -v
 docker compose up --build
